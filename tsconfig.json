@@ -1,0 +1,7 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "out": "./scripts/js/bundle.js",
+        "rootDir": "./scripts/ts"
+    }
+}
