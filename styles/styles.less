@@ -1,0 +1,153 @@
+/* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
+/*  ~ ~ ~ ~ ~  CSS By Chris Gregory ~ ~ ~ ~  */
+/* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
+
+/* ~ ~ ~ ~ Fonts ~ ~ ~ ~ */
+
+@font-face {
+	font-family: "Nexa Bold";
+	src: url("../fonts/Nexa/Nexa-Bold.otf");
+}
+
+@font-face {
+	font-family: "Nexa Light";
+	src: url("../fonts/Nexa/Nexa-Light.otf");
+}
+
+@font-face {
+	font-family: "Open Sans Bold";
+	src: url("../fonts/OpenSans/OpenSans-Bold.ttf");
+}
+
+@font-face {
+	font-family: "Open Sans Regular";
+	src: url("../fonts/OpenSans/OpenSans-Regular.ttf");
+}
+
+/* ~ ~ ~ ~ Colors ~ ~ ~ ~ */
+
+@classic-blue: rgb(72, 145, 206);
+@accessible-blue: rgb(52, 96, 148);
+@jumbo-grey: rgb(198, 190, 181);
+@urban-grey: rgb(100, 100, 105);
+@black: rgb(0, 0, 0);
+@white: rgb(255, 255, 255);
+
+/* ~ ~ ~ ~ General ~ ~ ~ ~ */
+
+html, body {
+	width: 100%;
+	height: 100%;
+	font-family: "arial";
+}
+
+.no-select {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	cursor: default;
+}
+
+::-moz-selection {
+    background: @jumbo-grey;
+}
+
+::selection {
+    background: @jumbo-grey;
+}
+
+/* ~ ~ ~ ~ Header ~ ~ ~ ~ */
+
+.header {
+	width: 100%;
+	height: 50px;
+	background-color: @accessible-blue;
+}
+
+.title {
+	font-family: "Nexa Bold";
+	color: darken(@white, 5%);
+	font-size: 25px;
+	display: inline-block;
+	margin: 14px 30px;
+}
+
+/* ~ ~ ~ ~ Content ~ ~ ~ ~ */
+
+.content {
+	width: 100%;
+	box-sizing: border-box;
+	height: calc(100% - 50px);
+	padding: 30px 10px 0px;
+}
+
+.about-section {
+	padding: 10px 40px 30px;
+}
+
+.about-section-title {
+	font-family: "Nexa Bold";
+	color: darken(@urban-grey, 5%);
+	display: block;
+	font-size: 20px;
+	margin-bottom: 15px;
+}
+
+.about-section-text {
+	text-indent: 20px;
+	font-family: "Open Sans Regular";
+	color: @urban-grey;
+	padding: 0px 50px;
+	display: block;
+	font-size: 16px;
+	line-height: 25px;
+}
+
+.button-wrap {
+	margin: 80px auto 0px;
+	text-align: center;
+}
+
+.button {
+	text-decoration: none;
+	font-family: "Nexa Bold";
+	display: inline-block;
+	padding: 6px 8px 4px;
+	margin: 0px 10px;
+	box-sizing: border-box;
+	border: 3px solid @classic-blue;
+	color: @urban-grey;
+	transition: border 300ms, background-color 300ms, color 33ms;
+}
+
+.button:hover {
+	background-color: @classic-blue;
+	color: @white;
+	cursor: pointer;
+}
+
+.button:active {
+	background-color: darken(@classic-blue, 15%);
+	border-color: darken(@classic-blue, 15%);
+}
+
+.button.disabled {
+	border: 3px solid lighten(@classic-blue, 15%);
+	color: lighten(@urban-grey, 30%);
+	cursor: default;
+}
+
+.button.disabled:hover {
+	color: lighten(@urban-grey, 30%);
+	background-color: @white;
+}
+
+
+/* ~ ~ ~ ~ Canvas ~ ~ ~ ~ */
+
+.canvas-wrap {
+	position: absolute;
+	top: -9999px;
+	left: -9999px;
+}

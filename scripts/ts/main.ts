@@ -1,19 +1,24 @@
 class Student {
-    fullName: string;
-    constructor(public firstName: string, public middleInitial: string, public lastName: string) {
-        this.fullName = firstName + " " + middleInitial + " " + lastName;
+    firstName: string;
+    middleInitial: string;
+    lastName: string;
+
+    constructor(firstName: string, middleInitial: string, lastName: string) {
+        this.firstName = firstName
+        this.middleInitial = middleInitial
+        this.lastName = lastName
+    }
+
+    fullName(): string {
+        return this.firstName + " " + this.middleInitial + " " + this.lastName
     }
 }
 
-interface Person {
-    firstName: string;
-    lastName: string;
-}
-
-function greeter(person : Person) {
-    return "Hello, " + person.firstName + " " + person.lastName;
+function greeter(person: Student) {
+    return "Hello, " + person.fullName()
 }
 
 let user = new Student("Jane", "M", "Franklin");
 
-document.getElementById("text").innerHTML = greeter(user);
+let text = document.getElementById("text")
+text.innerHTML = greeter(user)
