@@ -1,6 +1,7 @@
-from flask import Flask, jsonify, request
+from flask import jsonify, request
 from flask_pymongo import PyMongo
 from random import randrange as rand
+from flask import Flask
 
 # from models.category import Category
 # from models.comparison import Comparison
@@ -10,14 +11,13 @@ from random import randrange as rand
 app = Flask(__name__)
 
 @app.route('/')
-def hello_world():
-    return jsonify({'text': 'Hello, World!'})
-
+def hello():
+    return jsonify({'message': 'Welcome to CompRank!'})
 
 categories = [
     {
         'id': 1,
-        'name': 5000,
+        'name': "TUXC",
         'topics': ['Most Moral', 'Wettest']
     },
     {
@@ -146,11 +146,11 @@ def get_rankings():
     if 'key' not in params:
         return error('missing_param_key', 400)
 
-    n_to_take = 10
+    n_to_take = 9
     ranked_items = (sorted(items, key=lambda item: item['rating'], reverse=True))
     response = {"rankings": ranked_items[:n_to_take]}
     return (jsonify(response), 200)
 
 
-if __name__ == "__main__":
-    app.run()
+if __name__ == '__main__':
+    app.run(debug=True)
