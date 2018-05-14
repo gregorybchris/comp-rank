@@ -1,16 +1,23 @@
-import datetime as dt
 import uuid
 import os
+from .model import Model
+from .item import Item
+from .topic import Topic
+from mongoengine import Document, UUIDField, ReferenceField
 
-class Comparison():
-    def __init__(self, item_a_id, item_b_id):
-        self.id = None
-        self.created_at = dt.datetime.now()
-        self.winner_id = None
-        self.comparison_key = gen_comparison_key()
-        self.item_a_id = item_a_id
-        self.item_b_id = item_b_id
+def gen_comparison_key():
+    return str(uuid.UUID(bytes=os.urandom(16)))
 
-    @staticmethod
-    def gen_comparison_key():
-        return str(uuid.UUID(bytes=os.urandom(16)))
+class Comparison(Model):
+    item_a = ReferenceField(Item)
+    item_b = ReferenceField(Item)
+    topic = ReferenceField(Topic)
+    winning_item = ReferenceField(Item)
+    key = UUIDField(default=gen_comparison_key)
+
+    def serialize(self):
+        return {
+            'item_a': self.item_a.serialize(),
+            'item_b': self.item_b.serialize(),
+            'key': self.key
+        }

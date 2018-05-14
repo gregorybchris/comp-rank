@@ -5,10 +5,9 @@ name = "pypi"
 
 [packages]
 flask = "*"
-marshmallow = "*"
-flask-pymongo = "*"
 gunicorn = "*"
 python-dotenv = "*"
+mongoengine = "*"
 
 [dev-packages]
 
