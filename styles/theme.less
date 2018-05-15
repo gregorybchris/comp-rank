@@ -50,11 +50,13 @@ html, body {
 }
 
 ::-moz-selection {
-    background: @jumbo-grey;
+    background-color: lighten(@accessible-blue, 15%);
+	color: @white;
 }
 
 ::selection {
-    background: @jumbo-grey;
+    background-color: lighten(@accessible-blue, 15%);
+	color: @white;
 }
 
 /* ~ ~ ~ ~ Header ~ ~ ~ ~ */
@@ -71,6 +73,7 @@ html, body {
 	font-size: 25px;
 	display: inline-block;
 	margin: 14px 30px;
+	cursor: pointer;
 }
 
 /* ~ ~ ~ ~ Content ~ ~ ~ ~ */
@@ -104,30 +107,67 @@ html, body {
 	line-height: 25px;
 }
 
-.topics-section {
+.topics {
 	padding: 30px 40px 30px;
     background-color: darken(@white, 4%);
     box-sizing: border-box;
 }
 
+.category {
+	display: inline-block;
+	vertical-align: top;
+	box-sizing: border-box;
+	padding: 10px 15px;
+}
+
 .category-name {
-	text-indent: 20px;
-	font-family: "Open Sans Regular";
+	font-family: "Nexa Bold";
 	color: @urban-grey;
-	padding: 0px 50px;
 	display: block;
-	font-size: 16px;
-	line-height: 25px;
+	font-size: 18px;
+	margin-bottom: 6px;
+}
+
+.topic {
+
 }
 
 .topic-name {
-	text-indent: 20px;
 	font-family: "Open Sans Regular";
-	color: @urban-grey;
-	padding: 0px 50px;
+	color: darken(@urban-grey, 10%);
 	display: block;
-	font-size: 16px;
-	line-height: 25px;
+	font-size: 14px;
+	transition: color 300ms;
+}
+
+.topic-name:hover {
+	cursor: pointer;
+	color: lighten(@urban-grey, 15%);
+}
+
+.items {
+	padding: 30px 40px 30px;
+    box-sizing: border-box;
+	text-align: center;
+}
+
+.item {
+	padding: 12px 16px;
+	border: 3px solid darken(@white, 9%);
+	display: inline-block;
+	margin: 5px 10px;
+	transition: background-color 300ms;
+}
+
+.item:hover {
+	background-color: darken(@white, 9%);
+	cursor: pointer;
+}
+
+.item-name {
+	font-family: "Nexa Bold";
+	color: darken(@urban-grey, 10%);
+	font-size: 14px;
 }
 
 /* ~ ~ ~ ~ Inputs ~ ~ ~ ~ */

@@ -11,28 +11,36 @@
 		<script src="./scripts/lib/vue.min.js"></script>
 	</head>
 	<body>
-		<div class="header">
-			<a class="title-link" href="./"><span class="title">CompRank</span></a>
-		</div>
-		<div class="content">
-			<div class="about-section">
-				<div class="about-section-title">Welcome to CompRank</div>
-				<div class="about-section-text">
-					Taking superlatives to the next level, CompRank is the hottest new trend in comparison and ranking technology. Comparing items with many criteria can be hard. With CompRank at your disposal it has never been easier to go with your gut and discover the best of the best.
-				</div>
+		<div class="page">
+			<div class="header">
+				<span class="title" @click="switchView('selecting')">CompRank</span>
 			</div>
-
-			<div class="topics-section">
-				<div class="category" v-for="category in categories">
-					</span class="category-name">TUXC</span>
-					<div class="topic">
-						<span class="topic-name">Most Moral</span>
-						<span class="topic-name">Wettest</span>
-						<span class="topic-name">Best Hut Builder</span>
+			<div class="content">
+				<div class="about-section" v-if="selecting">
+					<div class="about-section-title">Welcome to CompRank</div>
+					<div class="about-section-text">
+						Taking superlatives to the next level, CompRank is the hottest new trend in comparison and ranking technology. Comparing items with many criteria can be hard. With CompRank at your disposal it has never been easier to go with your gut and discover the best of the best.
 					</div>
 				</div>
-				<div class="hello">
-					<span class="hello-text">{{ message }}</span>
+
+				<div class="topics" v-if="selecting">
+					<div class="category" v-for="category in categories">
+						<span class="category-name">{{ category.name }}</span>
+						<div class="topic" v-for="topic in category.topics">
+							<span class="topic-name" @click="topicClicked(topic)">{{ topic.name }}</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="items" v-if="comparing">
+					<div class="item" @click="submitComparison(comparison.item_a)">
+						<div class="item-image"></div>
+						<span class="item-name">{{ comparison.item_a.name }}</span>
+					</div>
+					<div class="item" @click="submitComparison(comparison.item_b)">
+						<div class="item-image"></div>
+						<span class="item-name">{{ comparison.item_b.name }}</span>
+					</div>
 				</div>
 			</div>
 		</div>
