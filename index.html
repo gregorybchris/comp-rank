@@ -8,7 +8,7 @@
 		<link href="styles/theme.less" rel="stylesheet/less" type="text/css"/>
 
 		<script src="./scripts/lib/less.min.js"></script>
-		<script src="./scripts/lib/jquery.min.js"></script>
+		<script src="./scripts/lib/vue.min.js"></script>
 	</head>
 	<body>
 		<div class="header">
@@ -20,20 +20,20 @@
 				<div class="about-section-text">
 					Taking superlatives to the next level, CompRank is the hottest new trend in comparison and ranking technology. Comparing items with many criteria can be hard. With CompRank at your disposal it has never been easier to go with your gut and discover the best of the best.
 				</div>
-				<div class="about-section-text">
-					Topics -> Comparisons -> Rankings
-				</div>
 			</div>
+
 			<div class="topics-section">
-				<div class="category">
-				</span class="category-title">TUXC</span>
-					<div class="topics-wrap">
-						<span class="topic">Most Moral</span>
-						<span class="topic">Wettest</span>
-						<span class="topic">Best Hut Builder</span>
+				<div class="category" v-for="category in categories">
+					</span class="category-name">TUXC</span>
+					<div class="topic">
+						<span class="topic-name">Most Moral</span>
+						<span class="topic-name">Wettest</span>
+						<span class="topic-name">Best Hut Builder</span>
 					</div>
 				</div>
-				<span id="text"></span>
+				<div class="hello">
+					<span class="hello-text">{{ message }}</span>
+				</div>
 			</div>
 		</div>
 		<script type="module" src="./scripts/js/main.js"></script>

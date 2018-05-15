@@ -1,17 +1,23 @@
-var Student = (function () {
-    function Student(firstName, middleInitial, lastName) {
-        this.firstName = firstName;
-        this.middleInitial = middleInitial;
-        this.lastName = lastName;
-    }
-    Student.prototype.fullName = function () {
-        return this.firstName + " " + this.middleInitial + " " + this.lastName;
-    };
-    return Student;
-}());
-function greeter(person) {
-    return "Hello, " + person.fullName();
+const get = async (endpoint) => {
+    let root = 'http://localhost:5000'
+    let response = await fetch(root + endpoint)
+    let data = await response.json()
+    return data
 }
-var user = new Student("Jane", "M", "Franklin");
-var text = document.getElementById("text");
-text.innerHTML = greeter(user);
+
+let hello = new Vue({
+    el: '.hello',
+    data: {
+        message: ''
+    },
+    methods: {
+        update() {
+            get('/').then(response => {
+                this.message = response.message
+            })
+        }
+    },
+    created: function() {
+        this.update()
+    }
+})

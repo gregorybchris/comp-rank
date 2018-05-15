@@ -1,24 +1,24 @@
-class Student {
-    firstName: string;
-    middleInitial: string;
-    lastName: string;
+import { Student } from "./student.js"
 
-    constructor(firstName: string, middleInitial: string, lastName: string) {
-        this.firstName = firstName
-        this.middleInitial = middleInitial
-        this.lastName = lastName
-    }
-
-    fullName(): string {
-        return this.firstName + " " + this.middleInitial + " " + this.lastName
-    }
-}
+declare var fetch;
 
 function greeter(person: Student) {
     return "Hello, " + person.fullName()
 }
 
-let user = new Student("Jane", "M", "Franklin");
+let user = new Student("Jane", "M", "Franklin")
 
-let text = document.getElementById("text")
-text.innerHTML = greeter(user)
+console.log("User: ", user, greeter(user))
+
+let textElement = document.getElementById("text")
+
+async function getData() {
+    let response = await fetch('https://localhost:5000/')
+    let data = await response.json()
+    return data
+}
+
+
+getData().then(function(data) {
+    textElement.innerHTML = data
+})
