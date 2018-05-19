@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Compare</title>
+		<meta charset="utf-8" />
+
+		<link href="styles/reset.css" rel="stylesheet" type="text/css">
+		<link href="styles/theme.less" rel="stylesheet/less" type="text/css"/>
+
+		<script src="./scripts/lib/less.min.js"></script>
+		<script src="./scripts/lib/vue.min.js"></script>
+	</head>
+	<body>
+		<div class="page">
+			<div class="header">
+				<span class="title" @click="goHome()">CompRank</span>
+			</div>
+			<div class="content" v-cloak>
+                <div class="topic-title">{{ topic.name }}</div>
+
+				<div class="items" v-if="comparison.item_a">
+					<div class="item" @click="submitComparison(comparison.item_a)">
+						<div class="item-image"></div>
+						<span class="item-name">{{ comparison.item_a.name }}</span>
+					</div>
+					<div class="item" @click="submitComparison(comparison.item_b)">
+						<div class="item-image"></div>
+						<span class="item-name">{{ comparison.item_b.name }}</span>
+					</div>
+				</div>
+
+				<div class="compare-buttons-wrap">
+                    <div class="button" @click="goHome()">Home</div>
+					<div class="button" @click="viewRankings()" v-if="unlocked">See Rankings</div>
+				</div>
+			</div>
+		</div>
+        <script type="module" src="./scripts/js/request-util.js"></script>
+        <script type="module" src="./scripts/js/storage-util.js"></script>
+		<script type="module" src="./scripts/js/compare.js"></script>
+	</body>
+</html>

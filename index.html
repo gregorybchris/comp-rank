@@ -13,17 +13,17 @@
 	<body>
 		<div class="page">
 			<div class="header">
-				<span class="title" @click="switchView('selecting')">CompRank</span>
+				<span class="title" @click="goHome()">CompRank</span>
 			</div>
-			<div class="content">
-				<div class="about-section" v-if="selecting">
-					<div class="about-section-title">Welcome to CompRank</div>
-					<div class="about-section-text">
+			<div class="content" v-cloak>
+				<div class="about">
+					<div class="about-title">Welcome to CompRank</div>
+					<div class="about-text">
 						Taking superlatives to the next level, CompRank is the hottest new trend in comparison and ranking technology. Comparing items with many criteria can be hard. With CompRank at your disposal it has never been easier to go with your gut and discover the best of the best.
 					</div>
 				</div>
 
-				<div class="topics" v-if="selecting">
+				<div class="topics">
 					<div class="category" v-for="category in categories">
 						<span class="category-name">{{ category.name }}</span>
 						<div class="topic" v-for="topic in category.topics">
@@ -31,19 +31,9 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="items" v-if="comparing">
-					<div class="item" @click="submitComparison(comparison.item_a)">
-						<div class="item-image"></div>
-						<span class="item-name">{{ comparison.item_a.name }}</span>
-					</div>
-					<div class="item" @click="submitComparison(comparison.item_b)">
-						<div class="item-image"></div>
-						<span class="item-name">{{ comparison.item_b.name }}</span>
-					</div>
-				</div>
 			</div>
 		</div>
-		<script type="module" src="./scripts/js/main.js"></script>
+		<script type="module" src="./scripts/js/request-util.js"></script>
+		<script type="module" src="./scripts/js/home.js"></script>
 	</body>
 </html>
