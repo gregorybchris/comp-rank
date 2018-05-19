@@ -11,6 +11,7 @@ new Vue({
         },
         updateCategories() {
             GET(makeQuery('/categories')).then(response => {
+                console.log('Fetched Categories: ', response.categories)
                 this.categories = response.categories
             })
         },
