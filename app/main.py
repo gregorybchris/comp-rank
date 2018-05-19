@@ -4,10 +4,10 @@ from random import randrange
 import json
 import uuid
 import os
-from models.category import Category
-from models.topic import Topic
-from models.comparison import Comparison
-from models.item import Item
+from category import Category
+from topic import Topic
+from comparison import Comparison
+from item import Item
 from mongoengine import DoesNotExist, connect
 from flask_cors import CORS, cross_origin
 
