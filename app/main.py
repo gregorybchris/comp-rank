@@ -12,7 +12,10 @@ from flask_cors import CORS, cross_origin
 
 
 app = Flask(__name__)
-# app.config['MONGO_DBNAME'] = 'comprank'
+is_prod =
+app.config['MONGO_DBNAME'] = 'comprank'
+app.config['MONGO_URI'] = os.environ.get('MONGODB_URI', None)
+print('My URI', os.environ.get('MONGODB_URI', None))
 CORS(app)
 connect('comprank')
 
