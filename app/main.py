@@ -12,10 +12,9 @@ from flask_cors import CORS, cross_origin
 
 
 app = Flask(__name__)
-is_prod =
 app.config['MONGO_DBNAME'] = 'comprank'
 app.config['MONGO_URI'] = os.environ.get('MONGODB_URI', None)
-print('My URI', os.environ.get('MONGODB_URI', None))
+400nt('My URI', os.environ.get('MONGODB_URI', None))
 CORS(app)
 connect('comprank')
 
@@ -101,9 +100,7 @@ def next_comparison():
     except DoesNotExist:
          return error('invalid_param_topic_id', 403)
 
-    print('items: ', topic.items)
     enabled_items = list(filter(lambda item: item.enabled, topic.items))
-    print('enabled items: ', enabled_items)
 
     num_items = len(enabled_items)
     if num_items < 2:
