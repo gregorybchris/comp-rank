@@ -17,7 +17,10 @@ def error(m, code):
 
 @app.route('/')
 def hello():
-    return jsonify({'message': 'Welcome to CompRank!'})
+    return jsonify({
+        'message': 'Welcome to CompRank!',
+        'version': '1.0.2'
+    })
 
 
 @app.route('/categories', methods=['GET'])
@@ -89,7 +92,11 @@ def next_comparison():
     except DoesNotExist:
          return error('invalid_param_topic_id', 403)
 
-    num_items = len(topic.items)
+    print('items: ', topic.items)
+    enabled_items = list(filter(lambda item: item.enabled, topic.items))
+    print('enabled items: ', enabled_items)
+
+    num_items = len(enabled_items)
     if num_items < 2:
         return error('no_items_to_compare', 400)
 
@@ -98,8 +105,8 @@ def next_comparison():
     while item_b_index == item_a_index:
         item_b_index = randrange(num_items)
 
-    item_a = topic.items[item_a_index]
-    item_b = topic.items[item_b_index]
+    item_a = enabled_items[item_a_index]
+    item_b = enabled_items[item_b_index]
     comparison = Comparison(item_a=item_a, item_b=item_b, topic=topic, \
                             address=request.remote_addr)
     comparison.save()
@@ -179,6 +186,9 @@ def get_rankings():
         * Reason: Missing topic_id param
           Code: 403
           Message: missing_param_topic_id
+        * Reason: Invalid topic
+          Code: 403
+          Message: invalid_topic_id
         * Reason: Missing keys param
           Code: 403
           Message: missing_param_keys
@@ -203,6 +213,11 @@ def get_rankings():
         return error('missing_param_keys', 403)
     keys = request_data['keys']
 
+    try:
+        topic = Topic.objects.get(id=topic_id)
+    except DoesNotExist:
+        return error('invalid_topic_id', 403)
+
     for key in keys:
         try:
             comparison = Comparison.objects.get(key=key)
@@ -217,7 +232,7 @@ def get_rankings():
     if not unlocked:
         return (jsonify({'unlocked': False}), 201)
 
-    items = Item.objects.order_by('-rating').limit(NUM_ITEMS)
+    items = sorted(topic.items, key=lambda t: t.rating,reverse=True)[:NUM_ITEMS]
     serialized_items = [item.serialize() for item in items if item.enabled]
 
     response = {

@@ -9,7 +9,6 @@ class Category(Model):
     topics = ListField(ReferenceField(Topic))
 
     def serialize(self):
-        print("Topics", self.topics)
         serialized_topics = [topic.serialize() for topic in self.topics
                              if topic.enabled]
         return {
