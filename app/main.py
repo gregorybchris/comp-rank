@@ -20,7 +20,7 @@ app.config['MONGODB_SETTINGS'] = {
 # app.config['MONGO_DBNAME'] = 'comprank'
 # app.config['MONGO_URI'] = os.environ.get('MONGODB_URI', None)
 CORS(app)
-connect('comprank')
+connect('comprank', host=os.environ.get('MONGODB_URI', None))
 
 
 def error(m, code):
