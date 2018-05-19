@@ -29,6 +29,39 @@ def get_categories():
     return (jsonify(response), 200)
 
 
+@app.route('/topic', methods=['GET'])
+def get_topic():
+    """ Gets information on a topic
+    Query params:
+        * topic_id: STRING
+    Error responses:
+        * Reason: Missing topic id param
+          Code: 403
+          Message: missing_param_topic_id
+        * Reason: Invalid topic id param
+          Code: 403
+          Message: invalid_param_topic_id
+        * Reason: Expired topic
+          Code: 403
+          Message: topic_expired
+    """
+    params = request.args
+    if 'topic_id' not in params:
+        return error('missing_param_topic_id', 400)
+    topic_id = params['topic_id']
+
+    try:
+        topic = Topic.objects.get(id=topic_id)
+    except DoesNotExist:
+         return error('invalid_param_topic_id', 403)
+
+    if not topic.enabled:
+        return error('topic_expired', 403)
+
+    response = {'topic': topic.serialize()}
+    return (jsonify(response), 200)
+
+
 @app.route('/comparison/next', methods=['GET'])
 def next_comparison():
     """ Returns a comparison of two items
@@ -42,8 +75,8 @@ def next_comparison():
           Code: 403
           Message: invalid_param_topic_id
         * Reason: Not enough items to compare
-          Code: 500
-          Message: insufficient_records
+          Code: 400
+          Message: no_items_to_compare
     """
 
     params = request.args
@@ -57,9 +90,8 @@ def next_comparison():
          return error('invalid_param_topic_id', 403)
 
     num_items = len(topic.items)
-    print(num_items)
     if num_items < 2:
-        return error('insufficient_records', 500)
+        return error('no_items_to_compare', 400)
 
     item_a_index = randrange(num_items)
     item_b_index = item_a_index
@@ -68,11 +100,11 @@ def next_comparison():
 
     item_a = topic.items[item_a_index]
     item_b = topic.items[item_b_index]
-    comparison = Comparison(item_a=item_a, item_b=item_b)
+    comparison = Comparison(item_a=item_a, item_b=item_b, topic=topic, \
+                            address=request.remote_addr)
     comparison.save()
 
     response = {'comparison': comparison.serialize()}
-    # response = {'comparison': 'TODO'}
     return (jsonify(response), 200)
 
 
@@ -81,7 +113,6 @@ def submit_comparison():
     """ Submits a comparison of two items
     Request params:
         * key: STRING
-        * past_keys: LIST<STRING>
         * winner_id: STRING
     Error responses:
         * Reason: Missing key param
@@ -93,21 +124,16 @@ def submit_comparison():
         * Reason: Invalid key param
           Code: 400
           Message: invalid_param_key
-        * Reason: Invalid winner_id param
+        * Reason: Invalid winner_id param, not an item
           Code: 400
-          Message: invalid_param_winner_id
+          Message: winner_id_not_found
+        * Reason: Invalid winner_id param, not in this comparison
+          Code: 400
+          Message: winner_not_in_comparison
         * Reason: Comparison key already used
           Code: 400
           Message: comparison_already_completed
-        * Reason: One past key was for an incomplete comparison
-          Code: 400
-          Message: past_key_not_completed
-        * Reason: One past key was invalid
-          Code: 403
-          Message: invalid_param_past_keys
     """
-    COMPARISONS_NEEDED = 5
-
     request_data = request.get_json()
     if 'key' not in request_data:
         return error('missing_param_key', 403)
@@ -115,15 +141,6 @@ def submit_comparison():
     if 'winner_id' not in request_data:
         return error('missing_param_winner_id', 403)
     winner_id = request_data['winner_id']
-    if 'past_keys' in request_data:
-        past_keys = request_data['past_keys']
-        for past_key in request_data['past_keys']:
-            try:
-                comparison = Comparison.objects.get(key=past_key)
-                if not comparison.winning_item:
-                    return error('past_key_not_completed', 400)
-            except DoesNotExist:
-                return error('invalid_param_past_keys', 403)
 
     try:
         comparison = Comparison.objects.get(key=key)
@@ -136,47 +153,75 @@ def submit_comparison():
     try:
         winning_item = Item.objects.get(id=winner_id)
     except DoesNotExist:
-        return error('invalid_param_winner_id', 400)
+        return error('winner_id_not_found', 400)
+
+    if winner_id not in [str(comparison.item_a.id), str(comparison.item_b.id)]:
+        return error('winner_not_in_comparison', 400)
 
     comparison.winning_item = winning_item
     comparison.save()
+    winning_item.rating = winning_item.rating + 1
+    winning_item.save()
 
-    if 'past_keys' in request_data and len(past_keys) + 1 >= COMPARISONS_NEEDED:
-        response = {
-            'unlocked': 'True',
-            'topic_key': str(uuid.UUID(bytes=os.urandom(16)))
-        }
-    else:
-        response = {'unlocked': 'False'}
-
-
+    response = {
+        'message': 'submitted'
+    }
     return (jsonify(response), 201)
 
 
-@app.route('/rankings', methods=['GET'])
+@app.route('/rankings', methods=['POST'])
 def get_rankings():
     """ Gets the first 10 rankings for a given topic
     Query params:
-        * topic: STRING
-        * key: STRING
+        * topic_id: STRING
+        * keys: LIST<STRING>
     Error responses:
-        * Reason: Missing topic param
+        * Reason: Missing topic_id param
           Code: 403
-          Message: missing_param_topic
-        * Reason: Missing key param
+          Message: missing_param_topic_id
+        * Reason: Missing keys param
           Code: 403
-          Message: missing_param_key
+          Message: missing_param_keys
+        * Reason: One comparison key was for an incomplete comparison
+          Code: 400
+          Message: comparison_key_not_completed
+        * Reason: One comparison key was for a comparison for the wrong topic
+          Code: 400
+          Message: comparison_key_wrong_topic
+        * Reason: One comparison key was invalid
+          Code: 403
+          Message: invalid_param_keys
     """
-    params = request.args
-    if 'topic' not in params:
-        return error('missing_param_topic', 403)
-    topic = params['topic']
-    if 'topic_key' not in params:
-        return error('missing_param_topic_key', 403)
-    topic_key = params['topic_key']
+    COMPARISONS_NEEDED = 10
+    NUM_ITEMS = 10
 
-    # n_to_take = 10
-    # top_items = mongo.db.item.find().sort('rating', DESCENDING).limit(n_to_take)
-    # top_items_serialized = list(map(serialize, top_items))
-    response = {'rankings': 'TODO'}
-    return (jsonify(response), 200)
+    request_data = request.get_json()
+    if 'topic_id' not in request_data:
+        return error('missing_param_topic_id', 403)
+    topic_id = request_data['topic_id']
+    if 'keys' not in request_data:
+        return error('missing_param_keys', 403)
+    keys = request_data['keys']
+
+    for key in keys:
+        try:
+            comparison = Comparison.objects.get(key=key)
+            if not comparison.winning_item:
+                return error('comparison_key_not_completed', 400)
+            if str(comparison.topic.id) != topic_id:
+                return error('comparison_key_wrong_topic')
+        except DoesNotExist:
+            return error('invalid_param_keys', 403)
+
+    unlocked = len(keys) >= COMPARISONS_NEEDED
+    if not unlocked:
+        return (jsonify({'unlocked': False}), 201)
+
+    items = Item.objects.order_by('-rating').limit(NUM_ITEMS)
+    serialized_items = [item.serialize() for item in items if item.enabled]
+
+    response = {
+        'unlocked': True,
+        'items': serialized_items
+    }
+    return (jsonify(response), 201)

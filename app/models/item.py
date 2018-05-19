@@ -13,5 +13,6 @@ class Item(Model):
             'id': str(self.id),
             'name': self.name,
             'format': self.format,
-            'image_link': self.image_link
+            'image_link': self.image_link,
+            'rating': self.rating
         }
