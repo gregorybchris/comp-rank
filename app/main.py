@@ -1,5 +1,4 @@
 from flask import jsonify, request, Flask
-from app import app
 from random import randrange
 import json
 import uuid
