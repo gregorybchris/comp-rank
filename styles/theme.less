@@ -92,7 +92,7 @@ html, body {
 /* ~ ~ ~ ~ Content - Home ~ ~ ~ ~ */
 
 .about {
-	padding: 40px 50px 40px;
+	padding: 40px 20px 40px;
 }
 
 .about-title {
@@ -101,16 +101,24 @@ html, body {
 	display: block;
 	font-size: 20px;
 	margin-bottom: 15px;
+	margin-left: 30px;
 }
 
 .about-text {
 	text-indent: 20px;
 	font-family: "Open Sans Regular";
 	color: @urban-grey;
-	padding: 0px 50px;
 	display: block;
 	font-size: 16px;
 	line-height: 25px;
+	text-align: justify;
+	margin: 0px 50px;
+}
+
+@media (max-width: 768px) {
+	.about-text {
+		margin: 0px 10px;
+	}
 }
 
 .topics {
@@ -152,10 +160,10 @@ html, body {
 
 .topic-title {
 	font-family: "Nexa Bold";
-	color: darken(@urban-grey, 5%);
+	color: lighten(@urban-grey, 10%);
 	display: block;
-	font-size: 20px;
-	margin: 40px auto 20px;
+	font-size: 30px;
+	margin: 40px auto 10px;
 	text-align: center;
 }
 
@@ -193,35 +201,54 @@ html, body {
 
 .rankings-list {
 	margin: 0px auto;
-	width: 40%;
+	width: 400px;
 	list-style: none;
 }
 
 .rankings-item {
 	counter-increment: item;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 	font-family: "Open Sans Regular";
 	color: @urban-grey;
 	padding: 0px 50px;
-	font-size: 20px;
+	font-size: 18px;
 }
 
 .rankings-item:before {
 	margin-right: 10px;
 	content: counter(item);
-	background: @classic-blue;
+	background-color: @classic-blue;
 	font-family: "Open Sans Regular";
-	border-radius: 2px;
+	border-radius: 100%;
 	color: @white;
-	width: 1.2em;
+	width: 30px;
+	font-size: 14px;
 	text-align: center;
 	display: inline-block;
-	padding: 5px;
+	padding: 8px 0px;
+}
+
+.rankings-item:nth-child(2n):before {
+	background-color: darken(@classic-blue, 8%)
 }
 
 .rankings-buttons-wrap {
 	margin: 30px auto 0px;
 	text-align: center;
+}
+
+.error-message-wrap {
+	margin: 0px auto;
+	text-align: center;
+	padding: 30px 0px;
+}
+
+.error-message {
+	margin: 0px auto;
+	text-align: center;
+	font-family: "Open Sans Regular";
+	color: @urban-grey;
+	font-size: 20px;
 }
 
 /* ~ ~ ~ ~ Inputs ~ ~ ~ ~ */

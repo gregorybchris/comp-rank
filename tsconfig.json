@@ -1,8 +1,0 @@
-{
-    "compilerOptions": {
-        "rootDir": "./scripts/ts/",
-        "outDir": "./scripts/js/",
-        "module": "es6",
-        "target": "ES6"
-    }
-}

@@ -1,7 +1,7 @@
 const KEY_STORE_NAME = 'comp-rank-keys'
 
 const getAllKeys = () => {
-    let local = window.localStorage
+    let local = window.sessionStorage
     if (local.getItem(KEY_STORE_NAME) === null)
         local.setItem(KEY_STORE_NAME, JSON.stringify({}))
     let keysString = local.getItem(KEY_STORE_NAME)
@@ -10,13 +10,13 @@ const getAllKeys = () => {
 }
 
 const clearAllKeys = () => {
-    let local = window.localStorage
+    let local = window.sessionStorage
     local.setItem(KEY_STORE_NAME, JSON.stringify({}))
 }
 
 const saveAllKeys = (keys) => {
     let newKeysString = JSON.stringify(keys)
-    let local = window.localStorage
+    let local = window.sessionStorage
     local.setItem(KEY_STORE_NAME, newKeysString)
 }
 
@@ -38,4 +38,9 @@ const getKeys = (topicID) => {
     return topicKeys
 }
 
-export { addKey, getKeys }
+const resetKeys = () => {
+    let local = window.sessionStorage
+    local.setItem(KEY_STORE_NAME, "{}")
+}
+
+export { addKey, getKeys, resetKeys}

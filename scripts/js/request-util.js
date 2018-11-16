@@ -1,5 +1,7 @@
 //TODO: Set these by environment (local/heroku)
-const API_ROOT = 'http://localhost:5000'
+
+const API_ROOT = 'http://comp-rank.herokuapp.com'
+// const API_ROOT = 'http://localhost:5000'
 const FRONT_ROOT = 'http://localhost:8000'
 
 const GET = async (url) => {
