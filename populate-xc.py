@@ -1,9 +1,9 @@
 from mongoengine import connect
 connect("comprank")
-from app.models.topic import Topic
-from app.models.comparison import Comparison
-from app.models.item import Item
-from app.models.category import Category
+from app.topic import Topic
+from app.comparison import Comparison
+from app.item import Item
+from app.category import Category
 
 
 import csv
