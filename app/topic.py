@@ -2,6 +2,7 @@ from .model import Model
 from .item import Item
 from mongoengine import StringField, ListField, ReferenceField
 
+
 class Topic(Model):
     name = StringField(max_length=50)
     description = StringField(max_length=50)

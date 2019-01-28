@@ -5,8 +5,10 @@ from .item import Item
 from .topic import Topic
 from mongoengine import Document, UUIDField, ReferenceField, StringField
 
+
 def gen_comparison_key():
     return str(uuid.UUID(bytes=os.urandom(16)))
+
 
 class Comparison(Model):
     item_a = ReferenceField(Item)

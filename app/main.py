@@ -23,11 +23,13 @@ connect('comprank', host=os.environ.get('MONGODB_URI', None))
 
 
 def error(m, code):
+    """Get error message."""
     return (jsonify(message=str(m)), code)
 
 
 @app.route('/')
 def hello():
+    """Hello message."""
     return jsonify({
         'message': 'Welcome to CompRank!',
         'version': '1.0.2'
@@ -36,7 +38,7 @@ def hello():
 
 @app.route('/categories', methods=['GET'])
 def get_categories():
-    """ Gets a list of all categories """
+    """Get a list of all categories."""
     categories = Category.objects()
     serialized_categories = [c.serialize() for c in categories if c.enabled]
     response = {'categories': serialized_categories}
@@ -45,7 +47,9 @@ def get_categories():
 
 @app.route('/topic', methods=['GET'])
 def get_topic():
-    """ Gets information on a topic
+    """
+    Get information on a topic.
+
     Query params:
         * topic_id: STRING
     Error responses:
@@ -67,7 +71,7 @@ def get_topic():
     try:
         topic = Topic.objects.get(id=topic_id)
     except DoesNotExist:
-         return error('invalid_param_topic_id', 403)
+        return error('invalid_param_topic_id', 403)
 
     if not topic.enabled:
         return error('topic_expired', 403)
@@ -78,7 +82,9 @@ def get_topic():
 
 @app.route('/comparison/next', methods=['GET'])
 def next_comparison():
-    """ Returns a comparison of two items
+    """
+    Return a comparison of two items.
+
     Query params:
         * topic_id: STRING
     Error responses:
@@ -92,7 +98,6 @@ def next_comparison():
           Code: 400
           Message: no_items_to_compare
     """
-
     params = request.args
     if 'topic_id' not in params:
         return error('missing_param_topic_id', 400)
@@ -101,7 +106,7 @@ def next_comparison():
     try:
         topic = Topic.objects.get(id=topic_id)
     except DoesNotExist:
-         return error('invalid_param_topic_id', 403)
+        return error('invalid_param_topic_id', 403)
 
     enabled_items = list(filter(lambda item: item.enabled, topic.items))
 
@@ -116,7 +121,7 @@ def next_comparison():
 
     item_a = enabled_items[item_a_index]
     item_b = enabled_items[item_b_index]
-    comparison = Comparison(item_a=item_a, item_b=item_b, topic=topic, \
+    comparison = Comparison(item_a=item_a, item_b=item_b, topic=topic,
                             address=request.remote_addr)
     comparison.save()
 
@@ -233,7 +238,7 @@ def get_rankings():
             if not comparison.winning_item:
                 return error('comparison_key_not_completed', 400)
             if str(comparison.topic.id) != topic_id:
-                return error('comparison_key_wrong_topic')
+                return error('comparison_key_wrong_topic', 400)
         except DoesNotExist:
             return error('invalid_param_keys', 403)
 
@@ -241,7 +246,8 @@ def get_rankings():
     if not unlocked:
         return (jsonify({'unlocked': False}), 201)
 
-    items = sorted(topic.items, key=lambda t: t.rating,reverse=True)[:NUM_ITEMS]
+    sorted_items = sorted(topic.items, key=lambda t: t.rating, reverse=True)
+    items = sorted_items[:NUM_ITEMS]
     serialized_items = [item.serialize() for item in items if item.enabled]
 
     response = {

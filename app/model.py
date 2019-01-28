@@ -1,6 +1,7 @@
 from mongoengine import Document, DateTimeField, BooleanField
 from datetime import datetime
 
+
 class Model(Document):
     meta = {'allow_inheritance': True, 'abstract': True}
     created_at = DateTimeField()
