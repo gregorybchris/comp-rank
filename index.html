@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>CompRank</title>
+		<meta charset="utf-8" />
+
+		<link href="styles/reset.css" rel="stylesheet" type="text/css">
+		<link href="styles/theme.less" rel="stylesheet/less" type="text/css"/>
+
+		<script src="./scripts/lib/less.min.js"></script>
+		<script src="./scripts/lib/vue.min.js"></script>
+	</head>
+	<body>
+		<div class="page">
+			<div class="header">
+				<span class="title" @click="goHome()">CompRank</span>
+			</div>
+			<div class="content" v-cloak>
+				<div class="about">
+					<div class="about-title">Welcome to CompRank</div>
+					<div class="about-text">
+						Taking superlatives to the next level, CompRank is the hottest new trend in comparison and ranking technology. Comparing items with many criteria can be hard. With CompRank at your disposal it has never been easier to go with your gut and discover the best of the best.
+					</div>
+					<div class="about-text">
+						Click a topic below to start comparing. Once you have compared enough you will be allowed to view the overall rankings for that topic.
+					</div>
+				</div>
+
+				<div class="topics">
+					<div class="category" v-for="category in categories">
+						<span class="category-name">{{ category.name }}</span>
+						<div class="topic" v-for="topic in category.topics">
+							<span class="topic-name" @click="topicClicked(topic)">{{ topic.name }}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="module" src="./scripts/js/request-util.js"></script>
+		<script type="module" src="./scripts/js/home.js"></script>
+	</body>
+</html>

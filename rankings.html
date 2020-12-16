@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Rankings</title>
+		<meta charset="utf-8" />
+
+		<link href="styles/reset.css" rel="stylesheet" type="text/css">
+		<link href="styles/theme.less" rel="stylesheet/less" type="text/css"/>
+
+		<script src="./scripts/lib/less.min.js"></script>
+		<script src="./scripts/lib/vue.min.js"></script>
+	</head>
+	<body>
+		<div class="page">
+			<div class="header">
+				<span class="title" @click="goHome()">CompRank</span>
+			</div>
+			<div class="content" v-cloak>
+				<div class="topic-title">{{ topic.name }}</div>
+
+				<ol class="rankings-list">
+					<li class="rankings-item" v-for="item in items">{{ item.name }}</li>
+				</ol>
+
+				<div class="error-message-wrap" v-if="error">
+					<span class="error-message">{{ error }}</span>
+				</div>
+
+				<div class="rankings-buttons-wrap">
+                    <div class="button" @click="goHome()">Home</div>
+					<div class="button" @click="compareMore()">Compare More</div>
+				</div>
+			</div>
+		</div>
+        <script type="module" src="./scripts/js/request-util.js"></script>
+        <script type="module" src="./scripts/js/storage-util.js"></script>
+		<script type="module" src="./scripts/js/rankings.js"></script>
+	</body>
+</html>

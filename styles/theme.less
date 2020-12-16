@@ -1,0 +1,293 @@
+/* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
+/*  ~ ~ ~ ~ ~  CSS By Chris Gregory ~ ~ ~ ~  */
+/* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
+
+/* ~ ~ ~ ~ Fonts ~ ~ ~ ~ */
+
+@font-face {
+	font-family: "Nexa Bold";
+	src: url("../fonts/Nexa/Nexa-Bold.otf");
+}
+
+@font-face {
+	font-family: "Nexa Light";
+	src: url("../fonts/Nexa/Nexa-Light.otf");
+}
+
+@font-face {
+	font-family: "Open Sans Bold";
+	src: url("../fonts/OpenSans/OpenSans-Bold.ttf");
+}
+
+@font-face {
+	font-family: "Open Sans Regular";
+	src: url("../fonts/OpenSans/OpenSans-Regular.ttf");
+}
+
+/* ~ ~ ~ ~ Colors ~ ~ ~ ~ */
+
+@classic-blue: rgb(72, 145, 206);
+@accessible-blue: rgb(52, 96, 148);
+@jumbo-grey: rgb(198, 190, 181);
+@urban-grey: rgb(100, 100, 105);
+@black: rgb(0, 0, 0);
+@white: rgb(255, 255, 255);
+
+/* ~ ~ ~ ~ General ~ ~ ~ ~ */
+
+html, body {
+	width: 100%;
+	height: 100%;
+	font-family: "arial";
+}
+
+.no-select {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	cursor: default;
+}
+
+::-moz-selection {
+    background-color: lighten(@accessible-blue, 15%);
+	color: @white;
+}
+
+::selection {
+    background-color: lighten(@accessible-blue, 15%);
+	color: @white;
+}
+
+[v-cloak] {
+	display: none;
+}
+
+/* ~ ~ ~ ~ Header ~ ~ ~ ~ */
+
+.header {
+	width: 100%;
+	height: 50px;
+	background-color: @accessible-blue;
+}
+
+.title {
+	font-family: "Nexa Bold";
+	color: darken(@white, 5%);
+	font-size: 25px;
+	display: inline-block;
+	margin: 14px 30px;
+	cursor: pointer;
+}
+
+/* ~ ~ ~ ~ Content ~ ~ ~ ~ */
+
+.content {
+	width: 100%;
+	box-sizing: border-box;
+	height: calc(100% - 50px);
+	padding: 0px;
+}
+
+/* ~ ~ ~ ~ Content - Home ~ ~ ~ ~ */
+
+.about {
+	padding: 40px 20px 40px;
+}
+
+.about-title {
+	font-family: "Nexa Bold";
+	color: darken(@urban-grey, 5%);
+	display: block;
+	font-size: 20px;
+	margin-bottom: 15px;
+	margin-left: 30px;
+}
+
+.about-text {
+	text-indent: 20px;
+	font-family: "Open Sans Regular";
+	color: @urban-grey;
+	display: block;
+	font-size: 16px;
+	line-height: 25px;
+	text-align: justify;
+	margin: 0px 50px;
+}
+
+@media (max-width: 768px) {
+	.about-text {
+		margin: 0px 10px;
+	}
+}
+
+.topics {
+	padding: 30px 40px 30px;
+    background-color: darken(@white, 4%);
+    box-sizing: border-box;
+}
+
+.category {
+	display: inline-block;
+	vertical-align: top;
+	box-sizing: border-box;
+	padding: 10px 15px;
+}
+
+.category-name {
+	font-family: "Nexa Bold";
+	color: @urban-grey;
+	display: block;
+	font-size: 18px;
+	margin-bottom: 6px;
+}
+
+.topic-name {
+	font-family: "Open Sans Regular";
+	color: darken(@urban-grey, 10%);
+	display: block;
+	font-size: 14px;
+	transition: color 300ms;
+	padding: 2px 0px 4px;
+}
+
+.topic-name:hover {
+	cursor: pointer;
+	color: @classic-blue;
+}
+
+/* ~ ~ ~ ~ Content - Compare ~ ~ ~ ~ */
+
+.topic-title {
+	font-family: "Nexa Bold";
+	color: lighten(@urban-grey, 10%);
+	display: block;
+	font-size: 30px;
+	margin: 40px auto 10px;
+	text-align: center;
+}
+
+.items {
+	padding: 30px 40px 30px;
+    box-sizing: border-box;
+	text-align: center;
+}
+
+.item {
+	padding: 12px 16px;
+	border: 3px solid darken(@white, 9%);
+	display: inline-block;
+	margin: 5px 10px;
+	transition: background-color 300ms;
+}
+
+.item:hover {
+	background-color: darken(@white, 9%);
+	cursor: pointer;
+}
+
+.item-name {
+	font-family: "Nexa Bold";
+	color: darken(@urban-grey, 10%);
+	font-size: 14px;
+}
+
+.compare-buttons-wrap {
+	margin: 30px auto 0px;
+	text-align: center;
+}
+
+/* ~ ~ ~ ~ Content - Rankings ~ ~ ~ ~ */
+
+.rankings-list {
+	margin: 0px auto;
+	width: 400px;
+	list-style: none;
+}
+
+.rankings-item {
+	counter-increment: item;
+    margin-bottom: 5px;
+	font-family: "Open Sans Regular";
+	color: @urban-grey;
+	padding: 0px 50px;
+	font-size: 18px;
+}
+
+.rankings-item:before {
+	margin-right: 10px;
+	content: counter(item);
+	background-color: @classic-blue;
+	font-family: "Open Sans Regular";
+	border-radius: 100%;
+	color: @white;
+	width: 30px;
+	font-size: 14px;
+	text-align: center;
+	display: inline-block;
+	padding: 8px 0px;
+}
+
+.rankings-item:nth-child(2n):before {
+	background-color: darken(@classic-blue, 8%)
+}
+
+.rankings-buttons-wrap {
+	margin: 30px auto 0px;
+	text-align: center;
+}
+
+.error-message-wrap {
+	margin: 0px auto;
+	text-align: center;
+	padding: 30px 0px;
+}
+
+.error-message {
+	margin: 0px auto;
+	text-align: center;
+	font-family: "Open Sans Regular";
+	color: @urban-grey;
+	font-size: 20px;
+}
+
+/* ~ ~ ~ ~ Inputs ~ ~ ~ ~ */
+
+.button-wrap {
+	margin: 80px auto 0px;
+	text-align: center;
+}
+
+.button {
+	text-decoration: none;
+	font-family: "Nexa Bold";
+	display: inline-block;
+	padding: 6px 8px 4px;
+	margin: 0px 10px;
+	box-sizing: border-box;
+	border: 3px solid @classic-blue;
+	color: @urban-grey;
+	transition: border 300ms, background-color 300ms, color 33ms;
+}
+
+.button:hover {
+	background-color: @classic-blue;
+	color: @white;
+	cursor: pointer;
+}
+
+.button:active {
+	background-color: darken(@classic-blue, 15%);
+	border-color: darken(@classic-blue, 15%);
+}
+
+.button.disabled {
+	border: 3px solid lighten(@classic-blue, 15%);
+	color: lighten(@urban-grey, 30%);
+	cursor: default;
+}
+
+.button.disabled:hover {
+	color: lighten(@urban-grey, 30%);
+	background-color: @white;
+}
